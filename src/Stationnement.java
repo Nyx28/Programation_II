@@ -19,14 +19,4 @@ public class Stationnement {
         if (x==1) {return true;}
         else return false;
     }
-
-    public static String CmbLibre(boolean arr[]) {
-        int x = 0;
-        for(int j = 0; j<arr.length;j++){
-            if(arr[j]==true){x+=1;}
-        }
-        if (x==1) {return "Une seule place est disponible";}
-        else if (x>=2) {return x + " places sont disponibles";}
-        else return "Aucune place n'est disponible";
-    }
 }

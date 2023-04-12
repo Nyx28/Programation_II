@@ -4,7 +4,6 @@ import java.util.Scanner;
 import java.util.Random;
 
 //Class to represent a vertex
-
 class Vertex implements Comparable<Vertex> {
     public final String name;
     public Edge[] adjacencies;
@@ -14,7 +13,7 @@ class Vertex implements Comparable<Vertex> {
     public String toString() { return name; }
     public int compareTo(Vertex other) { return Double.compare(minDistance, other.minDistance); }
 }
-
+//Méthode qui permet de faire une liaison orientée d'un noeud vers un autre avec un certain poids
 class Edge {
     public final Vertex target;
     public final double weight;
@@ -22,8 +21,9 @@ class Edge {
         target = argTarget; weight = argWeight;
     }
 }
-
+//Classe principale, implémente les méthodes de Stationnement
 public class Ville extends Stationnement {
+    //Méthode qui met en en ordre le chemin entre les noeuds
     public static void computePaths(Vertex source) {
         source.minDistance = 0.;
         PriorityQueue<Vertex> vertexQueue = new PriorityQueue<Vertex>();
@@ -46,11 +46,13 @@ public class Ville extends Stationnement {
             }
         }
     }
+    //Méthode qui permet de créer le trafic en augmantant le poids d'un chemin de + 0-100%
     public static int ran(int weight) {
        double valeur = Math.floor((Math.random()+1)*weight);
        int VFinale = (int)valeur;
        return VFinale;
     }
+    //Nous donne le chemin le plus cours
     public static List<Vertex> getShortestPathTo(Vertex target) {
         List<Vertex> path = new ArrayList<Vertex>();
         for (Vertex vertex = target; vertex != null; vertex = vertex.previous)
@@ -59,6 +61,7 @@ public class Ville extends Stationnement {
         Collections.reverse(path);
         return path;
     }
+    //Méthode qui est appelé dans JFrame afin de calculer le chemin le plus court vers un stationnement selon le point de départ initial
     public static String Djikstra(int x) {
         //Création d'une instance d'un stationnement, False = Occupé
         boolean Stationnement_A[];
@@ -84,7 +87,7 @@ public class Ville extends Stationnement {
             Stationnement_D[j] = Rand_Stat();
         }
 
-
+        //Création des différents noeuds
         Vertex v0 = new Vertex("Intersection 1");
         Vertex v1 = new Vertex("Intersection 2");
         Vertex v2 = new Vertex("Intersection 3");
@@ -106,6 +109,7 @@ public class Ville extends Stationnement {
         Vertex v18 = new Vertex("Intersection 19");
         Vertex v19 = new Vertex("Intersection 20");
 
+        //Création des routes entre les noeuds
         //intersec 1
         v0.adjacencies = new Edge[]{ new Edge(v1, ran(4)),
                 new Edge(v2, ran(3)) };
@@ -179,12 +183,11 @@ public class Ville extends Stationnement {
         //intersec 20
         v19.adjacencies = new Edge[]{ new Edge(v14, ran(4)),
                 new Edge(v18, ran(6)) };
-
+        //Toutes les intersections sont mises dans le même array de Vertex
         Vertex[] vertices = { v0, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16, v17, v18, v19 };
-
-
         String location;
         Vertex source = null;
+        //Selon le nombre (x) entré dans la méthode Djikstra (int x), changement de la source qui est le point de départ de l'algorithme
         int intersection = x;
 
         if (intersection == 1)
@@ -207,10 +210,13 @@ public class Ville extends Stationnement {
             source = v18;
         else
             source = v19;
-
+        //Création des variables nécessaires pour voir quel stationnement libre est le plus proche
         Vertex target = null;
         char goal = '0';
         double minimum = 1000;
+        /*Si un stationnement est libre, alors le programme calcul le poids du chemin le plus court vers celui-ci
+            Si le poids est inférieur au double minimum, la valeur de minimum est remplacé par celle du stationnement et le goal
+            est changé pour le stationnement analysé, ceci est reproduit pour chaque stationnement */
         if(EstLibre(Stationnement_A)) {
             target = v3;
             computePaths(source);
@@ -245,13 +251,14 @@ public class Ville extends Stationnement {
                 goal = 'D';
             }
         }
+        //Selon le but assigné, le bon stationnement est choisis
         if (goal=='A') {target= v3;}
         if (goal=='B') {target= v6;}
         if (goal=='C') {target= v11;}
         if (goal=='D') {target= v13;}
 
 
-
+        // La méthode Djikstra(int x) retourne un String comprennant le chemin le plus court noeud par noeud et le poids de ce chemin (Distance)
         computePaths(source);
         List<Vertex> path = getShortestPathTo(target);
         String retour = "Path: ";

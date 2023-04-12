@@ -3,9 +3,12 @@ import java.io.IOException;
 import javax.swing.*;
 public class Ville_GUI extends  Ville{
     public static void main(String[] args) throws IOException {
+        //Création du JFrame
         JFrame f=new JFrame("Schema de la ville");
+        //Création et positionnement d'un JLabel pour la question et le résultat du programme
         final JLabel label=new JLabel();
         label.setBounds(5,600, 950,50);
+        //Création et mise en place des boutons permettant à l'utilisateur de décider quel est son point de départ
         JButton b1=new JButton("1");
         JButton b3=new JButton("3");
         JButton b5=new JButton("5");
@@ -26,10 +29,14 @@ public class Ville_GUI extends  Ville{
         b17.setBounds(250,650,50,50);
         b19.setBounds(300,650,50,50);
         b20.setBounds(350,650,50,50);
+        //Mise en place du texte dans le JLabel
         label.setText("Veuillez sélectionner votre position");
+        //Mise en place de l'image représentant la ville
         JLabel j1 = new JLabel();
         j1.setIcon(new ImageIcon(Ville_GUI.class.getResource("/Ville_Schema_Final (3).png")));
         j1.setBounds(0,0,600,600);
+
+        //Incorporation de la méthode Djikstra(int x) dans chaque bouton selon leur noeud associé et affichage de la réponse dans le JLabel label
         b1.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
                 label.setText(Djikstra(1));
@@ -80,6 +87,7 @@ public class Ville_GUI extends  Ville{
                 label.setText(Djikstra(20));
             }
         });
+        //Addition des composantes au JFrame
         f.add(j1);
         f.add(b1);
         f.add(b3);
@@ -92,6 +100,7 @@ public class Ville_GUI extends  Ville{
         f.add(b19);
         f.add(b20);
         f.add(label);
+        //Configuration du JFrame
         f.setSize(750,850);
         f.setLayout(null);
         f.setVisible(true);
